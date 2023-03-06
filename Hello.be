@@ -64,20 +64,24 @@ def set_matrix_pixel_color(strip, x, y, color, brightness)
     strip.set_matrix_pixel_color(y, x, color, brightness)
 end
 
-var leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
-var strip = leds.create_matrix(col_size, row_size)
-strip.clear()
-set_matrix_pixel_color(strip, 1, 1, palette[0], 30)
-strip.show()
-
-for x: 0..7
-    for y: 0..7
-        if font['h'][y][x] == 1
-            set_matrix_pixel_color(strip, x, y, palette[0], 30)
-        else
-            set_matrix_pixel_color(strip, x, y, palette[1], 30)
+def print_char(strip, char, x, y, color, brightness)
+    for i: 0..7
+        for j: 0..7
+            if font[char][i][j] == 1
+                set_matrix_pixel_color(strip, x+j, y+i, color, brightness)
+            end
         end
     end
 end
+
+var leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
+var strip = leds.create_matrix(col_size, row_size)
+strip.clear()
+
+print_char(strip, 'h', 0, 0, palette[0], 30)
+print_char(strip, 'e', 7, 0, palette[1], 30)
+print_char(strip, 'l', 15, 0, palette[2], 30)
+print_char(strip, 'l', 20, 0, palette[3], 30)
+print_char(strip, 'o', 24, 8, palette[4], 30)
 
 strip.show()
