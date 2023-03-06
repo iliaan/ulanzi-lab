@@ -11,3 +11,6 @@
 * Following guide from [here](https://tasmota.github.io/docs/Berry_Addressable-LED/)
 * Go to Consoles -> Berry Scripting console
 * Copy code from [Rainbow.be](Rainbow.be) to console and run
+* [Auto start](https://tasmota.github.io/docs/UFS/#autoexecbe) rainbow
+
+![](doc/Ulanzi_Manage_File_system.png)
