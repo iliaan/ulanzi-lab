@@ -7,7 +7,9 @@
     * FAILED !!!! Do migration process to adapt the filesystem to Tasmota 
     * Consoles -> Console, run : Pixels 256
 
-
+## Berry Rainbow
+* Following guide for [here](https://tasmota.github.io/docs/Berry_Addressable-LED/)
+* In Consoles -> Berry input following code
 ```
 import animate
 class Rainbow_stripes : Leds_animator
