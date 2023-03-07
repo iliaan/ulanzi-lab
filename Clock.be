@@ -27,9 +27,22 @@ var font5x6 = [
 [ 0x02, 0x15, 0x15, 0x0D, 0x02]
 ]
 
-var font = font5x6
-var font_width = 5
-var font_height = 6
+var font3x5 = [
+[ 0xF8, 0x88, 0xF8],
+[ 0x90, 0xF8, 0x80],
+[ 0xE8, 0xA8, 0xB8],
+[ 0xA8, 0xA8, 0xF8],
+[ 0x38, 0x20, 0xF8],
+[ 0xB8, 0xA8, 0xE8],
+[ 0xF8, 0xA8, 0xE8],
+[ 0x08, 0xE8, 0x18],
+[ 0xF8, 0xA8, 0xF8],
+[ 0xB8, 0xA8, 0xF8]
+]
+
+var font = font3x5
+var font_width = 3
+var font_height = 5
 
 var palette = {
     'black': 0x000000,
@@ -117,7 +130,7 @@ class ClockDriver
         for i: 0..(font_width-1)
             var code = font[char][i]
             for j: 0..(font_height-1)
-                if code & (1 << j) != 0
+                if code & (1 << (j + 3)) != 0
                     self.set_matrix_pixel_color(x+i, y+j, color, brightness)
                 else
                     self.set_matrix_pixel_color(x+i, y+j, 0x000000, brightness)
