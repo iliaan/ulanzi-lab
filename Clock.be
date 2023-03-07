@@ -37,7 +37,7 @@ class ClockDriver
     def init()
         print("ClockDriver init")
         self.leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
-        self.strip = leds.create_matrix(col_size, row_size)
+        self.strip = self.leds.create_matrix(col_size, row_size)
         self.strip.clear()
     end
 
@@ -118,7 +118,7 @@ class ClockDriver
 end
 
 # for testing remove previous driver
-tasmota.remove_driver(clock)
+# tasmota.remove_driver(clock)
 
 clock = ClockDriver()
 

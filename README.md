@@ -6,6 +6,7 @@
     * Download firmware from [here](http://ota.tasmota.com/tasmota32/release/)
     * FAILED !!!! Do migration process to adapt the filesystem to Tasmota 
     * Go to Consoles -> Console, run : Pixels 256
+    * Set time zone via console : Timezone +2:00
 
 ## [Berry](https://tasmota.github.io/docs/Berry/) Rainbow
 * Following guide from [here](https://tasmota.github.io/docs/Berry_Addressable-LED/)
@@ -14,6 +15,9 @@
 * To [Auto start](https://tasmota.github.io/docs/UFS/#autoexecbe) rainbow
 
 ![](doc/Ulanzi_Manage_File_system.png)
+
+## Clock
+* Copy [Clock.be](Clock.be) to [autoexec.be](https://tasmota.github.io/docs/UFS/#autoexecbe)
 
 ## Links
 
