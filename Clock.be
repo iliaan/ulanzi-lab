@@ -87,20 +87,22 @@ class ClockDriver
         for i: 0..7
             for j: 0..7
                 var code = font[char][i]
-                if code & (0x80 >> j) != 0
+                if code & (1 << j) != 0
                     self.set_matrix_pixel_color(x+j, y+i, color, brightness)
+                else
+                    self.set_matrix_pixel_color(x+j, y+i, 0x000000, 50)
                 end
             end
         end
     end
 end
 
-# for testing
+# for testing remove previous driver
 tasmota.remove_driver(clock)
 
 clock = ClockDriver()
 
-# Test
+# Test one tick
 # clock.every_second()
 
 # Add to Tasmota
