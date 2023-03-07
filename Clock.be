@@ -16,9 +16,17 @@ class ClockDriver
         var rtc = tasmota.rtc()
         # print("RTC: ", rtc)
         var time_dump = tasmota.time_dump(rtc['local'])
-        print("Time: ", time_dump)
+        # print("Time: ", time_dump)
+
         var sec = time_dump['sec']
         self.set_value_to_column(sec, 1)
+
+        var min = time_dump['min']
+        self.set_value_to_column(min, 3)
+
+        var hour = time_dump['hour']
+        self.set_value_to_column(hour, 5)
+
         self.strip.show()
     end
 
@@ -45,6 +53,9 @@ class ClockDriver
         self.strip.set_matrix_pixel_color(y, x, color, brightness)
     end
 end
+
+# for testing
+tasmota.remove_driver(clock)
 
 clock = ClockDriver()
 
