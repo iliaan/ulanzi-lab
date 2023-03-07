@@ -3,7 +3,7 @@ var col_size = 32
 var font_width = 5
 var font_height = 7
 
-font = [
+var font = [
 [ 0x3E, 0x51, 0x49, 0x45, 0x3E],
 [ 0x00, 0x42, 0x7F, 0x40, 0x00],
 [ 0x72, 0x49, 0x49, 0x49, 0x46],
@@ -12,8 +12,21 @@ font = [
 [ 0x27, 0x45, 0x45, 0x45, 0x39],
 [ 0x3C, 0x4A, 0x49, 0x49, 0x31],
 [ 0x41, 0x21, 0x11, 0x09, 0x07],
-[ 0x36, 0x49, 0x49, 0x49, 0x36]
+[ 0x36, 0x49, 0x49, 0x49, 0x36],
+[ 0x46, 0x49, 0x49, 0x29, 0x1E]
 ]
+
+var palette = {
+    'black': 0x000000,
+    'white': 0xFFFFFF,
+    'red': 0xFF0000,
+    'orange': 0xFFA500,
+    'yellow': 0xFFFF00,
+    'green': 0x008800,
+    'blue': 0x0000FF,
+    'indigo': 0x4B0082,
+    'violet': 0xEE82EE,
+}
 
 class ClockDriver
     var leds
@@ -42,12 +55,13 @@ class ClockDriver
         var min = time_dump['min']
         var hour = time_dump['hour']
 
-        self.print_char(hour / 10, 0, 0, 0x0000FF, 50)
-        self.print_char(hour % 10, 8, 0, 0x0000FF, 50)
-        self.print_char(min / 10, 16, 0, 0x0000FF, 50)
-        self.print_char(min % 10, 24, 0, 0x0000FF, 50)
-        # self.print_char(sec / 10, 0, 8, 0x0000FF, 50)
-        # self.print_char(sec % 10, 8, 8, 0x0000FF, 50)
+        self.print_char(hour / 10, 0, 0, palette['red'], 50)
+        self.print_char(hour % 10, 5, 0, palette['red'], 50)
+        self.print_char(min / 10, 10, 0, palette['green'], 50)
+        self.print_char(min % 10, 15, 0, palette['green'], 50)
+        # print("sec: ", sec)
+        self.print_char(sec / 10, 20, 0, palette['blue'], 50)
+        self.print_char(sec % 10, 25, 0, palette['blue'], 50)
     end
 
     def binary_clock(time_dump)
@@ -91,7 +105,7 @@ class ClockDriver
                 if code & (1 << j) != 0
                     self.set_matrix_pixel_color(x+i, y+j, color, brightness)
                 else
-                    self.set_matrix_pixel_color(x+i, y+j, 0x000000, 50)
+                    self.set_matrix_pixel_color(x+i, y+j, 0x000000, brightness)
                 end
             end
         end
