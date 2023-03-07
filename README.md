@@ -7,10 +7,10 @@
     * FAILED !!!! Do migration process to adapt the filesystem to Tasmota 
     * Go to Consoles -> Console, run : Pixels 256
 
-## Berry Rainbow
+## [Berry](https://tasmota.github.io/docs/Berry/) Rainbow
 * Following guide from [here](https://tasmota.github.io/docs/Berry_Addressable-LED/)
 * Go to Consoles -> Berry Scripting console
 * Copy code from [Rainbow.be](Rainbow.be) to console and run
-* [Auto start](https://tasmota.github.io/docs/UFS/#autoexecbe) rainbow
+* To [Auto start](https://tasmota.github.io/docs/UFS/#autoexecbe) rainbow
 
 ![](doc/Ulanzi_Manage_File_system.png)
