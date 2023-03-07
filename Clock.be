@@ -57,13 +57,16 @@ class ClockDriver
         var min = time_dump['min']
         var hour = time_dump['hour']
 
-        self.print_char(hour / 10, 0, 0, palette['red'], 50)
-        self.print_char(hour % 10, 4, 0, palette['orange'], 50)
-        self.print_char(min / 10, 9, 0, palette['yellow'], 50)
-        self.print_char(min % 10, 13, 0, palette['green'], 50)
+        var x_offset = 4
+        var y_offset = 1
+
+        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, palette['red'], 50)
+        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, palette['orange'], 50)
+        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, palette['yellow'], 50)
+        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, palette['green'], 50)
         # print("sec: ", sec)
-        self.print_char(sec / 10, 18, 0, palette['blue'], 50)
-        self.print_char(sec % 10, 22, 0, palette['indigo'], 50)
+        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, palette['blue'], 50)
+        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, palette['indigo'], 50)
     end
 
     def binary_clock(time_dump)
