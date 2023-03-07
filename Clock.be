@@ -30,7 +30,26 @@ class ClockDriver
         # print("RTC: ", rtc)
         var time_dump = tasmota.time_dump(rtc['local'])
         # print("Time: ", time_dump)
+        # self.binary_clock(time_dump)
+        self.digit_clock(time_dump)
 
+        self.strip.show()
+    end
+
+    def digit_clock(time_dump)
+        var sec = time_dump['sec']
+        var min = time_dump['min']
+        var hour = time_dump['hour']
+
+        self.print_char(hour / 10, 0, 0, 0x0000FF, 50)
+        self.print_char(hour % 10, 8, 0, 0x0000FF, 50)
+        self.print_char(min / 10, 16, 0, 0x0000FF, 50)
+        self.print_char(min % 10, 24, 0, 0x0000FF, 50)
+        # self.print_char(sec / 10, 0, 8, 0x0000FF, 50)
+        # self.print_char(sec % 10, 8, 8, 0x0000FF, 50)
+    end
+
+    def binary_clock(time_dump)
         var sec = time_dump['sec']
         self.set_value_to_column(sec, 1)
 
@@ -39,8 +58,6 @@ class ClockDriver
 
         var hour = time_dump['hour']
         self.set_value_to_column(hour, 5)
-
-        self.strip.show()
     end
 
     # x is the column, y is the row from the top left
