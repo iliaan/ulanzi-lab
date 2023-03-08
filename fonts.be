@@ -1,4 +1,4 @@
-fonts = module("fonts")
+var fonts = module("fonts")
 
 var font5x7 = [
 [ 0x3E, 0x51, 0x49, 0x45, 0x3E],

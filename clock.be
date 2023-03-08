@@ -106,13 +106,7 @@ class ClockDriver
     end
 end
 
-# for testing remove previous driver
-# tasmota.remove_driver(clock)
+var clock = module("clock")
+clock.driver = ClockDriver()
 
-clock = ClockDriver()
-
-# Test one tick
-# clock.every_second()
-
-# Add to Tasmota
-tasmota.add_driver(clock)
+return clock
