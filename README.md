@@ -15,16 +15,31 @@ To install Tasmota firmware on the Ulanzi TC001, follow these steps:
 
 **********************
 ## [Berry](https://tasmota.github.io/docs/Berry/) Rainbow
-* Following guide from [here](https://tasmota.github.io/docs/Berry_Addressable-LED/)
-* Go to Consoles -> Berry Scripting console
-* Copy code from [Rainbow.be](Rainbow.be) to console and run
-* To [Auto start](https://tasmota.github.io/docs/UFS/#autoexecbe) rainbow
+
+To set up a [rainbow](https://tasmota.github.io/docs/Berry_Addressable-LED/) effect on your Tasmota Berry device, follow these steps:
+1. Go to "Consoles" in the Tasmota web interface and select "Berry Scripting Console".
+2. Copy the code from [rainbow.be](rainbow.be) and paste it into the console.
+3. Run the code to display the rainbow effect on the device.
+
+To automatically start the rainbow effect when the device starts up:
+1. Create a new file called [autoexec.be](https://tasmota.github.io/docs/UFS/#autoexecbe) in the root directory of the device's file system.
+2. Copy the code from [rainbow.be](rainbow.be) to autoexec.be
+3. Save file and restart the device
 
 ![](doc/Ulanzi_Manage_File_system.png)
-
 **********************
 ## Clock
-* Copy [clock.be](clock.be) to [autoexec.be](https://tasmota.github.io/docs/UFS/#autoexecbe)
+
+To set up a clock on your Tasmota device, you need to follow these steps:
+
+1. Go to the Tasmota web interface.
+2. Click on "Consoles" and select "Manage File System".
+3. Create a new file called `fonts.be` and add the contents from [fonts.be](fonts.be).
+4. Create a new file called `clock.be` and add the contents from [clock.be](clock.be).
+5. Create a new file called `autoexec.be` with the contents from [autoexec.be](autoexec.be). 
+
+These files contain the necessary code to display a clock on the device. Once the files are created and saved, restart the device to apply the changes. The clock should now be visible on the device display.
+
 **********************
 ## Ideas
 * Clock
