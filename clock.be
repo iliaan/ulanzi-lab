@@ -1,8 +1,10 @@
 import fonts
 
-var font = fonts.font_map['3x5']['font']
-var font_width = fonts.font_map['3x5']['width']
-var font_height = fonts.font_map['3x5']['height']
+var font_key = '3x5'
+var font = fonts.font_map[font_key]['font']
+var font_width = fonts.font_map[font_key]['width']
+var font_height = fonts.font_map[font_key]['height']
+var font_offset = fonts.font_map[font_key]['offset']
 
 var row_size = 8
 var col_size = 32
@@ -96,7 +98,7 @@ class ClockDriver
         for i: 0..(font_width-1)
             var code = font[char][i]
             for j: 0..(font_height-1)
-                if code & (1 << (j + 3)) != 0
+                if code & (1 << (j + font_offset)) != 0
                     self.set_matrix_pixel_color(x+i, y+j, color, brightness)
                 else
                     self.set_matrix_pixel_color(x+i, y+j, 0x000000, brightness)

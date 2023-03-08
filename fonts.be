@@ -1,5 +1,3 @@
-var fonts = module("fonts")
-
 var font5x7 = [
 [ 0x3E, 0x51, 0x49, 0x45, 0x3E],
 [ 0x00, 0x42, 0x7F, 0x40, 0x00],
@@ -39,10 +37,12 @@ var font3x5 = [
 [ 0xB8, 0xA8, 0xF8]
 ]
 
+var fonts = module("fonts")
+
 fonts.font_map = {
-    '5x7': { 'font' : font5x7, 'width': 5, 'height': 7 },
-    '5x6': { 'font' : font5x6, 'width': 5, 'height': 6 },
-    '3x5': { 'font' : font3x5, 'width': 3, 'height': 5 }
+    '5x7': { 'font' : font5x7, 'width': 5, 'height': 7, 'offset': 0 },
+    '5x6': { 'font' : font5x6, 'width': 5, 'height': 6, 'offset': 0 },
+    '3x5': { 'font' : font3x5, 'width': 3, 'height': 5, 'offset': 3 } 
 }
 
 return fonts
