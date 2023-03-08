@@ -1,13 +1,11 @@
 # Ulanzi TC001
+<img src="https://templates.blakadder.com/assets/images/logo.svg" alt="Tasmota" width="300"/>
 
 ## Flash Tasmota firmware
 
-<img src="https://templates.blakadder.com/assets/images/logo.svg" alt="Tasmota" width="300"/>
-
 ### **Warning**: 
-```
 Flashing Tasmota firmware on your device may potentially brick or damage the device. It is important to proceed with caution and to understand the risks involved before attempting to flash the firmware. Please note that any modifications to the device's firmware may void the manufacturer's warranty and may result in permanent damage to the device. It is strongly recommended to thoroughly research the flashing process and to follow instructions carefully. The user assumes all responsibility and risk associated with flashing the firmware.
-```
+
 To install Tasmota firmware on the Ulanzi TC001, follow these steps:
 
 1. Download the Tasmota firmware from the [official Tasmota website](http://ota.tasmota.com/tasmota32/release/).
@@ -26,7 +24,7 @@ To install Tasmota firmware on the Ulanzi TC001, follow these steps:
 
 **********************
 ## Clock
-* Copy [Clock.be](Clock.be) to [autoexec.be](https://tasmota.github.io/docs/UFS/#autoexecbe)
+* Copy [clock.be](clock.be) to [autoexec.be](https://tasmota.github.io/docs/UFS/#autoexecbe)
 **********************
 ## Ideas
 * Clock
