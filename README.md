@@ -37,6 +37,7 @@ To set up a clock on your Tasmota device, you need to follow these steps:
 3. Create a new file called `fonts.be` and add the contents from [fonts.be](fonts.be).
 4. Create a new file called `clock.be` and add the contents from [clock.be](clock.be).
 5. Create a new file called `autoexec.be` with the contents from [autoexec.be](autoexec.be). 
+![Ulanzi_Manage_File_system_Clock](doc/Ulanzi_Manage_File_system_Clock.png)
 
 These files contain the necessary code to display a clock on the device. Once the files are created and saved, restart the device to apply the changes. The clock should now be visible on the device display.
 
