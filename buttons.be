@@ -1,8 +1,26 @@
-def on_button(value, trigger, msg)
-    print(value)
-    print(trigger)
-    print(msg)
+class Buttons
+    def on_button_prev(value, trigger, msg)
+        print(value)
+        print(trigger)
+        print(msg)
+    end
+    def on_button_action(value, trigger, msg)
+        print(value)
+        print(trigger)
+        print(msg)
+    end
+    def on_button_next(value, trigger, msg)
+        print(value)
+        print(trigger)
+        print(msg)
+    end
+
+    def init()
+        print("Buttons init")
+        tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
+        tasmota.add_rule("Button2#State", / value, trigger, msg -> self.on_button_action(value, trigger, msg))
+        tasmota.add_rule("Button3#State", / value, trigger, msg -> self.on_button_next(value, trigger, msg))
+    end
 end
-tasmota.add_rule("Button1#State", on_button)
-tasmota.add_rule("Button2#State", on_button)
-tasmota.add_rule("Button3#State", on_button)
+
+bb = Buttons()
