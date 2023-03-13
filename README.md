@@ -41,6 +41,14 @@ To set up a clock on your Tasmota device, you need to follow these steps:
 
 These files contain the necessary code to display a clock on the device. Once the files are created and saved, restart the device to apply the changes. The clock should now be visible on the device display.
 
+## Buttons
+```
+def dimmer_over_50()
+    print("The light is bright")
+end
+tasmota.add_rule("Button2#State", dimmer_over_50)
+```
+
 **********************
 ## Ideas
 * Clock
