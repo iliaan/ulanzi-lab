@@ -9,18 +9,6 @@ var font_offset = fonts.font_map[font_key]['offset']
 var row_size = 8
 var col_size = 32
 
-var palette = {
-    'black': 0x000000,
-    'white': 0xFFFFFF,
-    'red': 0xFF0000,
-    'orange': 0xFFA500,
-    'yellow': 0xFFFF00,
-    'green': 0x008800,
-    'blue': 0x0000FF,
-    'indigo': 0x4B0082,
-    'violet': 0xEE82EE,
-}
-
 class ClockDriver
     var leds
     var strip
@@ -51,13 +39,13 @@ class ClockDriver
         var x_offset = 4
         var y_offset = 1
 
-        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, palette['red'], 50)
-        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, palette['orange'], 50)
-        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, palette['yellow'], 50)
-        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, palette['green'], 50)
+        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, fonts.palette['red'], 50)
+        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, fonts.palette['orange'], 50)
+        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, fonts.palette['yellow'], 50)
+        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, fonts.palette['green'], 50)
         # print("sec: ", sec)
-        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, palette['blue'], 50)
-        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, palette['indigo'], 50)
+        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, fonts.palette['blue'], 50)
+        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, fonts.palette['indigo'], 50)
     end
 
     def binary_clock(time_dump)

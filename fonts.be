@@ -45,4 +45,16 @@ fonts.font_map = {
     '3x5': { 'font' : font3x5, 'width': 3, 'height': 5, 'offset': 3 } 
 }
 
+fonts.palette = {
+    'black': 0x000000,
+    'white': 0xFFFFFF,
+    'red': 0xFF0000,
+    'orange': 0xFFA500,
+    'yellow': 0xFFFF00,
+    'green': 0x008800,
+    'blue': 0x0000FF,
+    'indigo': 0x4B0082,
+    'violet': 0xEE82EE,
+}
+
 return fonts
