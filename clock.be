@@ -12,12 +12,19 @@ var col_size = 32
 class ClockDriver
     var leds
     var strip
+    var colors
+    var color_index
 
     def init()
         print("ClockDriver init")
         self.leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
         self.strip = self.leds.create_matrix(col_size, row_size)
         self.strip.clear()
+
+        self.colors = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
+        self.color_index = 0
+
+        tasmota.add_rule("Button3#State", / value, trigger, msg -> self.on_button_next(value, trigger, msg))
     end
 
     def every_second()
@@ -31,6 +38,14 @@ class ClockDriver
         self.strip.show()
     end
 
+    def on_button_next(value, trigger, msg)
+        print(value)
+        print(trigger)
+        print(msg)
+
+        self.color_index = (self.color_index + 1) % size(self.colors)
+    end
+
     def digit_clock(time_dump)
         var sec = time_dump['sec']
         var min = time_dump['min']
@@ -39,13 +54,13 @@ class ClockDriver
         var x_offset = 4
         var y_offset = 1
 
-        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, fonts.palette['red'], 50)
-        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, fonts.palette['orange'], 50)
-        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, fonts.palette['yellow'], 50)
-        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, fonts.palette['green'], 50)
+        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
+        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
+        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
+        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
         # print("sec: ", sec)
-        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, fonts.palette['blue'], 50)
-        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, fonts.palette['indigo'], 50)
+        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
+        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
     end
 
     def binary_clock(time_dump)
