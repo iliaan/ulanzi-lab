@@ -1,3 +1,5 @@
+import math
+import json
 import fonts
 
 var font_key = '3x5'
@@ -14,6 +16,7 @@ class ClockDriver
     var strip
     var colors
     var color_index
+    var brightness
 
     def init()
         print("ClockDriver init")
@@ -23,11 +26,23 @@ class ClockDriver
 
         self.colors = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
         self.color_index = 0
+        self.brightness = 50
 
         tasmota.add_rule("Button3#State", / value, trigger, msg -> self.on_button_next(value, trigger, msg))
     end
 
     def every_second()
+        var sensors = json.load(tasmota.read_sensors())
+        var illuminance = sensors['ANALOG']['Illuminance2']
+        self.brightness = int(10 * math.log(illuminance))
+        if self.brightness < 10
+            self.brightness = 10
+        end
+        if self.brightness > 90
+            self.brightness = 90
+        end
+        print("Brightness: ", self.brightness, ", Illuminance: ", illuminance)
+
         var rtc = tasmota.rtc()
         # print("RTC: ", rtc)
         var time_dump = tasmota.time_dump(rtc['local'])
@@ -54,13 +69,13 @@ class ClockDriver
         var x_offset = 4
         var y_offset = 1
 
-        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
-        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
-        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
-        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
+        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
         # print("sec: ", sec)
-        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
-        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, self.colors[self.color_index], 50)
+        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 
     def binary_clock(time_dump)
@@ -89,10 +104,10 @@ class ClockDriver
         for i: 0..7
             if value & (1 << i) != 0
                 # print("set pixel ", i, " to 1")
-                self.set_matrix_pixel_color(column, i, 0x00FF00, 50)
+                self.set_matrix_pixel_color(column, i, 0x00FF00, self.brightness)
             else
                 # print("set pixel ", i, " to 0")
-                self.set_matrix_pixel_color(column, i, 0x000000, 50)
+                self.set_matrix_pixel_color(column, i, 0x000000, self.brightness)
             end
         end
     end
