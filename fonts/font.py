@@ -36,7 +36,7 @@ def save_hex_strings_to_file(hex_strings, filename):
 
 def main():
     point_size = 16
-    font_path = os.path.join(".", "fonts", "TinyUnicode.ttf")
+    font_path = os.path.join(".", "fonts", "3x5MatrixDisplay.ttf")
     characters = [char for char in string.ascii_uppercase]
     characters += [char for char in string.ascii_lowercase]
     characters += [char for char in string.digits]

@@ -2,11 +2,8 @@ import math
 import json
 import fonts
 
-var font_key = '3x5'
+var font_key = 'MatrixDisplay3x5'
 var font = fonts.font_map[font_key]['font']
-var font_width = fonts.font_map[font_key]['width']
-var font_height = fonts.font_map[font_key]['height']
-var font_offset = fonts.font_map[font_key]['offset']
 
 var row_size = 8
 var col_size = 32
@@ -34,13 +31,16 @@ class ClockDriver
     def every_second()
         self.update_brightness()
         self.print_time()
+        #self.print_char('A', 0, 0, self.colors[self.color_index], self.brightness)
+        #self.print_char('B', 5, 0, self.colors[self.color_index], self.brightness)
+        #self.print_char('C', 10, 0, self.colors[self.color_index], self.brightness)
         self.strip.show()
     end
 
     def on_button_next(value, trigger, msg)
-        print(value)
-        print(trigger)
-        print(msg)
+        # print(value)
+        # print(trigger)
+        # print(msg)
 
         self.color_index = (self.color_index + 1) % size(self.colors)
     end
@@ -75,13 +75,13 @@ class ClockDriver
         var x_offset = 4
         var y_offset = 1
 
-        self.print_char(hour / 10, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(hour % 10, 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(min / 10, 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(min % 10, 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(str(hour / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(str(hour % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(str(min / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(str(min % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
         # print("sec: ", sec)
-        self.print_char(sec / 10, 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(sec % 10, 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(str(sec / 10), 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.print_char(str(sec % 10), 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 
     def binary_clock(time_dump)
@@ -119,13 +119,15 @@ class ClockDriver
     end
 
     def print_char(char, x, y, color, brightness)
-        for i: 0..(font_width-1)
+        var font_width = 8
+        var font_height = size(font[char])
+        for i: 0..(font_height-1)
             var code = font[char][i]
-            for j: 0..(font_height-1)
-                if code & (1 << (j + font_offset)) != 0
-                    self.set_matrix_pixel_color(x+i, y+j, color, brightness)
+            for j: 0..(font_width-1)
+                if code & (1 << (font_width - j - 1)) != 0
+                    self.set_matrix_pixel_color(x+j, y+i, color, brightness)
                 else
-                    self.set_matrix_pixel_color(x+i, y+j, 0x000000, brightness)
+                    self.set_matrix_pixel_color(x+j, y+i, 0x000000, brightness)
                 end
             end
         end
