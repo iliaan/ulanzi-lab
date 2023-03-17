@@ -3,25 +3,49 @@ import fonts
 
 class ClockDriver
     var printer
+    var brightness
     var colors
     var color_index
-    var brightness
+    var state_list
+    var state_index
 
     def init()
         print("ClockDriver init")
         self.printer = printer.printer
 
+        self.brightness = 50
         self.colors = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
         self.color_index = 0
-        self.brightness = 50
 
+        self.state_list = [ 'time', 'date' ]
+        self.state_index = 0
+
+        tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
         tasmota.add_rule("Button3#State", / value, trigger, msg -> self.on_button_next(value, trigger, msg))
     end
 
     def every_second()
         self.brightness = self.printer.recommend_brightness()
-        self.print_time()
+        
+        # do state action
+        var state = self.state_list[self.state_index]
+        if state == 'time'
+            self.print_time()
+        elif state == 'date'
+            self.print_date()
+        else
+            print("Unknown state: ", state)
+        end
+
         self.printer.draw()
+    end
+
+    def on_button_prev(value, trigger, msg)
+        # print(value)
+        # print(trigger)
+        # print(msg)
+        self.state_index = (self.state_index + 1) % size(self.state_list)
+        self.printer.clear()
     end
 
     def on_button_next(value, trigger, msg)
@@ -40,6 +64,22 @@ class ClockDriver
         self.digit_clock(time_dump)
     end
 
+    def print_date()
+        var rtc = tasmota.rtc()
+        var time_dump = tasmota.time_dump(rtc['local'])
+
+        var day = time_dump['day']
+        var month = time_dump['month']
+
+        var x_offset = 5
+        var y_offset = 1
+
+        self.printer.print_char(str(day / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(day % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(month / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(month % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+    end
+
     def digit_clock(time_dump)
         var sec = time_dump['sec']
         var min = time_dump['min']
@@ -55,17 +95,6 @@ class ClockDriver
         # print("sec: ", sec)
         self.printer.print_char(str(sec / 10), 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
         self.printer.print_char(str(sec % 10), 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-    end
-
-    def binary_clock(time_dump)
-        var sec = time_dump['sec']
-        self.printer.print_binary(sec, 1)
-
-        var min = time_dump['min']
-        self.printer.print_binary(min, 3)
-
-        var hour = time_dump['hour']
-        self.printer.print_binary(hour, 5)
     end
 end
 

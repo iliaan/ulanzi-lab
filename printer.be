@@ -19,6 +19,10 @@ class Printer
         self.strip.clear()
     end
 
+    def clear()
+        self.strip.clear()
+    end
+
     def draw()
         self.strip.show()
     end
