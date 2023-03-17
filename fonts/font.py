@@ -23,23 +23,30 @@ def generate_hex_strings(font_path, point_size, characters):
                 hex_array.append(f"0x{byte:02x}")
             hex_string = ", ".join(hex_array)
         hex_strings[char] = hex_string
+        print(f"Char '{char}': {hex_string}")
+        print_hex_as_binary(hex_string)
     return hex_strings
 
 def save_hex_strings_to_file(hex_strings, filename):
     with open(filename, 'w') as f:
+        f.write("var font = {\n")
         for char, hex_string in hex_strings.items():
-            f.write(f"Char '{char}': {hex_string}\n")
-            binary_string = "".join([bin(int(hex_str, 16))[2:].zfill(8) for hex_str in hex_string.split(", ")])
-            for i in range(0, len(binary_string), 8):
-                f.write(f"{binary_string[i:i+8]}\n")
-            f.write("\n")
+            f.write(f"'{char}': [{hex_string}],\n")
+        f.write("}")
 
 def main():
     point_size = 16
     font_path = os.path.join(".", "fonts", "TinyUnicode.ttf")
     characters = [char for char in string.ascii_uppercase]
+    characters += [char for char in string.ascii_lowercase]
+    characters += [char for char in string.digits]
+    characters += [char for char in string.punctuation]
+    characters += [" "]
+    # remove single quote
+    characters.remove("'")
+    characters.remove("\\")
     hex_strings = generate_hex_strings(font_path, point_size, characters)
-    filename = "hex_strings.txt"
+    filename = "./fonts/hex_strings.txt"
     save_hex_strings_to_file(hex_strings, filename)
 
 if __name__ == "__main__":
