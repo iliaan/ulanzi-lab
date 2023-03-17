@@ -11,27 +11,30 @@ var col_size = 32
 class Printer
     var leds
     var strip
-    var brightness
 
     def init()
         print("Printer init")
         self.leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
         self.strip = self.leds.create_matrix(col_size, row_size)
         self.strip.clear()
-        self.brightness = 50
     end
 
-    def update_brightness()
+    def draw()
+        self.strip.show()
+    end
+
+    def recommend_brightness()
         var sensors = json.load(tasmota.read_sensors())
         var illuminance = sensors['ANALOG']['Illuminance2']
-        self.brightness = int(10 * math.log(illuminance))
-        if self.brightness < 10
-            self.brightness = 10
+        var brightness = int(10 * math.log(illuminance))
+        if brightness < 10
+            brightness = 10
         end
-        if self.brightness > 90
-            self.brightness = 90
+        if brightness > 90
+            brightness = 90
         end
         # print("Brightness: ", self.brightness, ", Illuminance: ", illuminance)
+        return brightness
     end
 
     # x is the column, y is the row from the top left

@@ -5,6 +5,7 @@ class ClockDriver
     var printer
     var colors
     var color_index
+    var brightness
 
     def init()
         print("ClockDriver init")
@@ -12,14 +13,15 @@ class ClockDriver
 
         self.colors = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
         self.color_index = 0
+        self.brightness = 50
 
         tasmota.add_rule("Button3#State", / value, trigger, msg -> self.on_button_next(value, trigger, msg))
     end
 
     def every_second()
-        self.printer.update_brightness()
+        self.brightness = self.printer.recommend_brightness()
         self.print_time()
-        self.printer.strip.show()
+        self.printer.draw()
     end
 
     def on_button_next(value, trigger, msg)
@@ -46,13 +48,13 @@ class ClockDriver
         var x_offset = 4
         var y_offset = 1
 
-        self.printer.print_char(str(hour / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
-        self.printer.print_char(str(hour % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
-        self.printer.print_char(str(min / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
-        self.printer.print_char(str(min % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
+        self.printer.print_char(str(hour / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(hour % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(min / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(min % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
         # print("sec: ", sec)
-        self.printer.print_char(str(sec / 10), 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
-        self.printer.print_char(str(sec % 10), 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
+        self.printer.print_char(str(sec / 10), 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(sec % 10), 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 
     def binary_clock(time_dump)
