@@ -76,8 +76,9 @@ class ClockDriver
 
         self.printer.print_char(str(day / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
         self.printer.print_char(str(day % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(month / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(month % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char('/',           8 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(month / 10), 12 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(month % 10), 16 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 
     def digit_clock(time_dump)
