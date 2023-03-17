@@ -102,6 +102,11 @@ class ClockDriver
             x = col_size - x - 1
         end
 
+        if x < 0 || x >= col_size || y < 0 || y >= row_size
+            # print("Invalid pixel: ", x, ", ", y)
+            return
+        end
+
         self.strip.set_matrix_pixel_color(y, x, color, brightness)
     end
 
@@ -119,6 +124,11 @@ class ClockDriver
     end
 
     def print_char(char, x, y, color, brightness)
+        if font.contains(char) == false
+            print("Font does not contain char: ", char)
+            return
+        end
+
         var font_width = 8
         var font_height = size(font[char])
         for i: 0..(font_height-1)
