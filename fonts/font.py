@@ -9,13 +9,22 @@ font = ImageFont.truetype(font_path, point_size)
 
 characters = [char for char in string.ascii_uppercase]
 
+def print_hex_as_binary(hex_string):
+    binary_string = "".join([bin(int(hex_str, 16))[2:].zfill(8) for hex_str in hex_string.split(", ")])
+    for i in range(0, len(binary_string), 8):
+        print(binary_string[i:i+8])
+
 for char in characters:
-    char_box = font.getbbox(char)[2:]
-    print(char, char_box)
-    with Image.new("1", (char_box)) as im:
-        im.putdata(font.getmask(char))
-        #print image size
-        print(char, font.getbbox(char))
-        print(char, font.getlength(char))
-        print(char, font.getsize(char))
-        im.save(os.path.join(".", "fonts", char + ".bmp"))
+    bitmap = font.getmask(char)
+    width, height = bitmap.size
+    hex_array = []
+    for y in range(height):
+        for x in range(0, width, 8):
+            byte = 0
+            for i in range(8):
+                if x+i < width and bitmap.getpixel((x+i, y)):
+                    byte |= 1 << (7-i)
+            hex_array.append(f"0x{byte:02x}")
+        hex_string = ", ".join(hex_array)
+    print(f"Char '{char}': {hex_string}")
+    print_hex_as_binary(hex_string)
