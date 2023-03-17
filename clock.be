@@ -1,61 +1,32 @@
-import math
-import json
+import printer
 import fonts
 
-var font_key = 'MatrixDisplay3x5'
-var font = fonts.font_map[font_key]['font']
-
-var row_size = 8
-var col_size = 32
-
 class ClockDriver
-    var leds
-    var strip
+    var printer
     var colors
     var color_index
-    var brightness
 
     def init()
         print("ClockDriver init")
-        self.leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
-        self.strip = self.leds.create_matrix(col_size, row_size)
-        self.strip.clear()
+        self.printer = printer.printer
 
         self.colors = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
         self.color_index = 0
-        self.brightness = 50
 
         tasmota.add_rule("Button3#State", / value, trigger, msg -> self.on_button_next(value, trigger, msg))
     end
 
     def every_second()
-        self.update_brightness()
+        self.printer.update_brightness()
         self.print_time()
-        #self.print_char('A', 0, 0, self.colors[self.color_index], self.brightness)
-        #self.print_char('B', 5, 0, self.colors[self.color_index], self.brightness)
-        #self.print_char('C', 10, 0, self.colors[self.color_index], self.brightness)
-        self.strip.show()
+        self.printer.strip.show()
     end
 
     def on_button_next(value, trigger, msg)
         # print(value)
         # print(trigger)
         # print(msg)
-
         self.color_index = (self.color_index + 1) % size(self.colors)
-    end
-
-    def update_brightness()
-        var sensors = json.load(tasmota.read_sensors())
-        var illuminance = sensors['ANALOG']['Illuminance2']
-        self.brightness = int(10 * math.log(illuminance))
-        if self.brightness < 10
-            self.brightness = 10
-        end
-        if self.brightness > 90
-            self.brightness = 90
-        end
-        # print("Brightness: ", self.brightness, ", Illuminance: ", illuminance)
     end
 
     def print_time()
@@ -75,72 +46,24 @@ class ClockDriver
         var x_offset = 4
         var y_offset = 1
 
-        self.print_char(str(hour / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(str(hour % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(str(min / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(str(min % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(hour / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
+        self.printer.print_char(str(hour % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
+        self.printer.print_char(str(min / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
+        self.printer.print_char(str(min % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
         # print("sec: ", sec)
-        self.print_char(str(sec / 10), 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.print_char(str(sec % 10), 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        self.printer.print_char(str(sec / 10), 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
+        self.printer.print_char(str(sec % 10), 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.printer.brightness)
     end
 
     def binary_clock(time_dump)
         var sec = time_dump['sec']
-        self.set_value_to_column(sec, 1)
+        self.printer.print_binary(sec, 1)
 
         var min = time_dump['min']
-        self.set_value_to_column(min, 3)
+        self.printer.print_binary(min, 3)
 
         var hour = time_dump['hour']
-        self.set_value_to_column(hour, 5)
-    end
-
-    # x is the column, y is the row from the top left
-    def set_matrix_pixel_color(x, y, color, brightness)   
-        # if y is odd, reverse the order of y
-        if y % 2 == 1
-            x = col_size - x - 1
-        end
-
-        if x < 0 || x >= col_size || y < 0 || y >= row_size
-            # print("Invalid pixel: ", x, ", ", y)
-            return
-        end
-
-        self.strip.set_matrix_pixel_color(y, x, color, brightness)
-    end
-
-    # set pixel column to binary value
-    def set_value_to_column(value, column)
-        for i: 0..7
-            if value & (1 << i) != 0
-                # print("set pixel ", i, " to 1")
-                self.set_matrix_pixel_color(column, i, self.colors[self.color_index], self.brightness)
-            else
-                # print("set pixel ", i, " to 0")
-                self.set_matrix_pixel_color(column, i, 0x000000, self.brightness)
-            end
-        end
-    end
-
-    def print_char(char, x, y, color, brightness)
-        if font.contains(char) == false
-            print("Font does not contain char: ", char)
-            return
-        end
-
-        var font_width = 8
-        var font_height = size(font[char])
-        for i: 0..(font_height-1)
-            var code = font[char][i]
-            for j: 0..(font_width-1)
-                if code & (1 << (font_width - j - 1)) != 0
-                    self.set_matrix_pixel_color(x+j, y+i, color, brightness)
-                else
-                    self.set_matrix_pixel_color(x+j, y+i, 0x000000, brightness)
-                end
-            end
-        end
+        self.printer.print_binary(hour, 5)
     end
 end
 
