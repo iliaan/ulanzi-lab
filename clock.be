@@ -32,24 +32,8 @@ class ClockDriver
     end
 
     def every_second()
-        var sensors = json.load(tasmota.read_sensors())
-        var illuminance = sensors['ANALOG']['Illuminance2']
-        self.brightness = int(10 * math.log(illuminance))
-        if self.brightness < 10
-            self.brightness = 10
-        end
-        if self.brightness > 90
-            self.brightness = 90
-        end
-        print("Brightness: ", self.brightness, ", Illuminance: ", illuminance)
-
-        var rtc = tasmota.rtc()
-        # print("RTC: ", rtc)
-        var time_dump = tasmota.time_dump(rtc['local'])
-        # print("Time: ", time_dump)
-        # self.binary_clock(time_dump)
-        self.digit_clock(time_dump)
-
+        self.update_brightness()
+        self.print_time()
         self.strip.show()
     end
 
@@ -59,6 +43,28 @@ class ClockDriver
         print(msg)
 
         self.color_index = (self.color_index + 1) % size(self.colors)
+    end
+
+    def update_brightness()
+        var sensors = json.load(tasmota.read_sensors())
+        var illuminance = sensors['ANALOG']['Illuminance2']
+        self.brightness = int(10 * math.log(illuminance))
+        if self.brightness < 10
+            self.brightness = 10
+        end
+        if self.brightness > 90
+            self.brightness = 90
+        end
+        # print("Brightness: ", self.brightness, ", Illuminance: ", illuminance)
+    end
+
+    def print_time()
+        var rtc = tasmota.rtc()
+        # print("RTC: ", rtc)
+        var time_dump = tasmota.time_dump(rtc['local'])
+        # print("Time: ", time_dump)
+        # self.binary_clock(time_dump)
+        self.digit_clock(time_dump)
     end
 
     def digit_clock(time_dump)
@@ -104,7 +110,7 @@ class ClockDriver
         for i: 0..7
             if value & (1 << i) != 0
                 # print("set pixel ", i, " to 1")
-                self.set_matrix_pixel_color(column, i, 0x00FF00, self.brightness)
+                self.set_matrix_pixel_color(column, i, self.colors[self.color_index], self.brightness)
             else
                 # print("set pixel ", i, " to 0")
                 self.set_matrix_pixel_color(column, i, 0x000000, self.brightness)

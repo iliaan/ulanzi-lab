@@ -42,9 +42,14 @@ To set up a clock on your Tasmota device, you need to follow these steps:
 These files contain the necessary code to display a clock on the device. Once the files are created and saved, restart the device to apply the changes. The clock should now be visible on the device display.
 
 **********************
+## TODO Next
+* ABC fonts
+* Show date, week day
+* Switch to binary/digital clock
+* Show sensors
+
+**********************
 ## Ideas
-* Clock
-* Sensors
 * Poll some web data
 * Print text in running line : news/stocks
 * Alarm Clock
@@ -53,6 +58,8 @@ These files contain the necessary code to display a clock on the device. Once th
 * Yes/No questions/trivia/game/ai
 **********************
 ## Links
+* https://github.com/aptonline/PixelIt_Ulanzi
+* https://blakadder.com/esphome-pixel-clock/
 * https://github.com/dhepper/font8x8
 * https://github.com/Ameba8195/Arduino/blob/master/hardware_v2/cores/arduino/font5x7.h
 * https://github.com/mikerr/codebug-arduino/blob/master/font4x5.h
