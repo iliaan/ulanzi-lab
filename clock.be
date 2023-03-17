@@ -58,10 +58,10 @@ class ClockDriver
     def print_time()
         var rtc = tasmota.rtc()
         # print("RTC: ", rtc)
-        var time_dump = tasmota.time_dump(rtc['local'])
-        # print("Time: ", time_dump)
-        # self.binary_clock(time_dump)
-        self.digit_clock(time_dump)
+        var time_str = tasmota.strftime('%H:%M:%S', rtc['local'])
+        var x_offset = 0
+        var y_offset = 1
+        self.printer.print_string(time_str, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 
     def print_date()
@@ -73,29 +73,8 @@ class ClockDriver
 
         var x_offset = 5
         var y_offset = 1
-
-        self.printer.print_char(str(day / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(day % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char('/',           8 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(month / 10), 12 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(month % 10), 16 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-    end
-
-    def digit_clock(time_dump)
-        var sec = time_dump['sec']
-        var min = time_dump['min']
-        var hour = time_dump['hour']
-
-        var x_offset = 4
-        var y_offset = 1
-
-        self.printer.print_char(str(hour / 10), 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(hour % 10), 4 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(min / 10), 9 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(min % 10), 13 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        # print("sec: ", sec)
-        self.printer.print_char(str(sec / 10), 18 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
-        self.printer.print_char(str(sec % 10), 22 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+        var date_str = str(day) + '/' + str(month)
+        self.printer.print_string(date_str, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 end
 

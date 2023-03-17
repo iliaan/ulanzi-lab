@@ -88,6 +88,13 @@ class Printer
             end
         end
     end
+
+    def print_string(string, x, y, color, brightness)
+        var font_width = 4
+        for i: 0..(size(string)-1)
+            self.print_char(string[i], x+i*font_width, y, color, brightness)
+        end
+    end
 end
 
 var printer = module("printer")
