@@ -193,8 +193,8 @@ var MatrixDisplay3x5 = {
 var fonts = module("fonts")
 
 fonts.font_map = {
-    'TinyUnicode': { 'font' : TinyUnicode },
-    'MatrixDisplay3x5': { 'font' : MatrixDisplay3x5 },
+    'TinyUnicode': { 'font' : TinyUnicode, 'width' : 5 },
+    'MatrixDisplay3x5': { 'font' : MatrixDisplay3x5, 'width' : 3 },
 }
 
 fonts.palette = {

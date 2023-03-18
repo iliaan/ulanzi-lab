@@ -11,12 +11,15 @@ var col_size = 32
 class Printer
     var leds
     var strip
+    var font_width
 
     def init()
         print("Printer init")
         self.leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
         self.strip = self.leds.create_matrix(col_size, row_size)
         self.strip.clear()
+
+        self.font_width = fonts.font_map[font_key]['width']
     end
 
     def clear()
@@ -75,12 +78,12 @@ class Printer
             return
         end
 
-        var font_width = 8
+        var font_width = self.font_width
         var font_height = size(font[char])
         for i: 0..(font_height-1)
             var code = font[char][i]
             for j: 0..(font_width-1)
-                if code & (1 << (font_width - j - 1)) != 0
+                if code & (1 << (7 - j)) != 0
                     self.set_matrix_pixel_color(x+j, y+i, color, brightness)
                 else
                     self.set_matrix_pixel_color(x+j, y+i, 0x000000, brightness)
@@ -90,9 +93,9 @@ class Printer
     end
 
     def print_string(string, x, y, color, brightness)
-        var font_width = 4
+        var char_offset = self.font_width + 1
         for i: 0..(size(string)-1)
-            self.print_char(string[i], x+i*font_width, y, color, brightness)
+            self.print_char(string[i], x+i*char_offset, y, color, brightness)
         end
     end
 end
