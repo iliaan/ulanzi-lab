@@ -95,9 +95,17 @@ class Printer
     end
 
     def print_string(string, x, y, color, brightness)
-        var char_offset = self.font_width + 1
+        var char_offset = 0
         for i: 0..(size(string)-1)
-            self.print_char(string[i], x+i*char_offset, y, color, brightness)
+            if string[i] == '|'
+                continue
+            end
+            if i > 0 && string[i-1] == '|'
+                char_offset += int(string[i])
+                continue
+            end
+            self.print_char(string[i], x + char_offset, y, color, brightness)
+            char_offset += self.font_width + 1
         end
     end
 end
