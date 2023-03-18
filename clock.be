@@ -70,10 +70,12 @@ class ClockDriver
 
         var day = time_dump['day']
         var month = time_dump['month']
+        var weekday = time_dump['weekday']
+        var weekday_list = [ 'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT' ]
 
-        var x_offset = 5
+        var x_offset = 0
         var y_offset = 1
-        var date_str = str(day) + '/' + str(month)
+        var date_str = weekday_list[weekday] + ' ' + str(day) + '/' + str(month)
         self.printer.print_string(date_str, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 end
