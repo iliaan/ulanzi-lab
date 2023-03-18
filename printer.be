@@ -2,23 +2,25 @@ import math
 import json
 import fonts
 
-var font_key = 'MatrixDisplay3x5'
-var font = fonts.font_map[font_key]['font']
-
-var row_size = 8
-var col_size = 32
-
 class Printer
     var leds
     var strip
+    var font
     var font_width
+    var row_size
+    var col_size
 
     def init()
         print("Printer init")
-        self.leds = Leds(row_size*col_size, gpio.pin(gpio.WS2812, 32))
-        self.strip = self.leds.create_matrix(col_size, row_size)
+        self.row_size = 8
+        self.col_size = 32
+
+        self.leds = Leds(self.row_size*self.col_size, gpio.pin(gpio.WS2812, 32))
+        self.strip = self.leds.create_matrix(self.col_size, self.row_size)
         self.strip.clear()
 
+        var font_key = 'MatrixDisplay3x5'
+        self.font = fonts.font_map[font_key]['font']
         self.font_width = fonts.font_map[font_key]['width']
     end
 
@@ -48,10 +50,10 @@ class Printer
     def set_matrix_pixel_color(x, y, color, brightness)   
         # if y is odd, reverse the order of y
         if y % 2 == 1
-            x = col_size - x - 1
+            x = self.col_size - x - 1
         end
 
-        if x < 0 || x >= col_size || y < 0 || y >= row_size
+        if x < 0 || x >= self.col_size || y < 0 || y >= self.row_size
             # print("Invalid pixel: ", x, ", ", y)
             return
         end
@@ -73,15 +75,15 @@ class Printer
     end
 
     def print_char(char, x, y, color, brightness)
-        if font.contains(char) == false
+        if self.font.contains(char) == false
             print("Font does not contain char: ", char)
             return
         end
 
         var font_width = self.font_width
-        var font_height = size(font[char])
+        var font_height = size(self.font[char])
         for i: 0..(font_height-1)
-            var code = font[char][i]
+            var code = self.font[char][i]
             for j: 0..(font_width-1)
                 if code & (1 << (7 - j)) != 0
                     self.set_matrix_pixel_color(x+j, y+i, color, brightness)
