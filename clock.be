@@ -1,5 +1,6 @@
 import printer
 import fonts
+import json
 
 class ClockDriver
     var printer
@@ -17,7 +18,7 @@ class ClockDriver
         self.colors = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
         self.color_index = 0
 
-        self.state_list = [ 'time', 'date' ]
+        self.state_list = [ 'time', 'date', 'temperature', 'humidity', 'dewpoint' ]
         self.state_index = 0
 
         tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
@@ -33,6 +34,12 @@ class ClockDriver
             self.print_time()
         elif state == 'date'
             self.print_date()
+        elif state == 'temperature'
+            self.print_temperature()
+        elif state == 'humidity'
+            self.print_humidity()
+        elif state == 'dewpoint'
+            self.print_dewpoint()
         else
             print("Unknown state: ", state)
         end
@@ -77,6 +84,36 @@ class ClockDriver
         var y_offset = 1
         var date_str = weekday_list[weekday] + '|1' + str(day) + '-' + str(month)
         self.printer.print_string(date_str, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+    end
+
+    def print_temperature()
+        var sensors = json.load(tasmota.read_sensors())
+        var value = sensors['SHT3X']['Temperature']
+        var valueUnit = sensors['TempUnit']
+        var temp_str = str(value) + '|1' + valueUnit
+        var x_offset = 0
+        var y_offset = 1
+        self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+    end
+
+    def print_humidity()
+        var sensors = json.load(tasmota.read_sensors())
+        var value = sensors['SHT3X']['Humidity']
+        var valueUnit = '%'
+        var temp_str = 'RH' + '|1' + str(value) + '|1' + valueUnit
+        var x_offset = 0
+        var y_offset = 1
+        self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
+    end
+
+    def print_dewpoint()
+        var sensors = json.load(tasmota.read_sensors())
+        var value = sensors['SHT3X']['DewPoint']
+        var valueUnit = sensors['TempUnit']
+        var temp_str = 'DP' + '|1' + str(value) + '|1' + valueUnit
+        var x_offset = 0
+        var y_offset = 1
+        self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.colors[self.color_index], self.brightness)
     end
 end
 
