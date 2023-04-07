@@ -20,7 +20,7 @@ class ClockDriver
         self.color_index = 0
 
         self.state_time_list = [ 'time', 'date' ]
-        self.state_sensor_list = [ 'temperature', 'humidity', 'dewpoint' ]
+        self.state_sensor_list = [ 'temperature', 'humidity', 'dewpoint', 'battery' ]
         self.state = 'time'
 
         tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
@@ -43,6 +43,8 @@ class ClockDriver
             self.print_humidity()
         elif state == 'dewpoint'
             self.print_dewpoint()
+        elif state == 'battery'
+            self.print_battery()
         else
             print("Unknown state: ", state)
         end
@@ -126,7 +128,7 @@ class ClockDriver
         var sensors = json.load(tasmota.read_sensors())
         var value = sensors['SHT3X']['Temperature']
         var valueUnit = sensors['TempUnit']
-        var temp_str = str(value) + '|1' + valueUnit
+        var temp_str = str(value) + valueUnit
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
@@ -136,7 +138,7 @@ class ClockDriver
         var sensors = json.load(tasmota.read_sensors())
         var value = sensors['SHT3X']['Humidity']
         var valueUnit = '%'
-        var temp_str = 'RH' + '|1' + str(value) + '|1' + valueUnit
+        var temp_str = 'RH' + '|1' + str(value) + valueUnit
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
@@ -146,7 +148,18 @@ class ClockDriver
         var sensors = json.load(tasmota.read_sensors())
         var value = sensors['SHT3X']['DewPoint']
         var valueUnit = sensors['TempUnit']
-        var temp_str = 'DP' + '|1' + str(value) + '|1' + valueUnit
+        var temp_str = 'DP' + '|1' + str(value) + valueUnit
+        var x_offset = 0
+        var y_offset = 1
+        self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
+    end
+
+    def print_battery()
+        var sensors = json.load(tasmota.read_sensors())
+        var value = sensors['ANALOG']['A1']
+        var valueUnit = '%'
+        value = int(value * 100 / 2500)
+        var temp_str = 'BAT' + '|1' + str(value) + valueUnit
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
