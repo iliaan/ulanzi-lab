@@ -45,10 +45,6 @@ These files contain the necessary code to display a clock on the device. Once th
 
 **********************
 ## TODO Next
-* ABC fonts
-* Show date, week day
-* Switch to binary/digital clock
-* Show sensors
 
 **********************
 ## Ideas

@@ -102,14 +102,23 @@ class ClockDriver
         var rtc = tasmota.rtc()
         var time_dump = tasmota.time_dump(rtc['local'])
 
-        var day = time_dump['day']
-        var month = time_dump['month']
+        var day = str(time_dump['day'])
+        var month = str(time_dump['month'])
         var weekday = time_dump['weekday']
         var weekday_list = [ 'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT' ]
 
         var x_offset = 0
         var y_offset = 1
-        var date_str = weekday_list[weekday] + '|1' + str(day) + '-' + str(month)
+
+        # add zero to single digit day and month
+        if time_dump['day'] < 10
+            day = '0' + str(day)
+        end
+        if time_dump['month'] < 10
+            month = '0' + str(month)
+        end
+
+        var date_str = weekday_list[weekday] + '|1' + day + '/' + month
         self.printer.print_string(date_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
     end
 
