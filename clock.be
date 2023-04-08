@@ -158,8 +158,16 @@ class ClockDriver
         var sensors = json.load(tasmota.read_sensors())
         var value = sensors['ANALOG']['A1']
         var valueUnit = '%'
-        value = int(value * 100 / 2500)
-        var temp_str = 'BAT' + '|1' + str(value) + valueUnit
+        var min = 2000
+        var max = 2600
+        if value < min
+            value = min
+        end
+        if value > max
+            value = max
+        end
+        value = int(((value - min) * 100) / (max - min))
+        var temp_str = 'BAT' + '|1' + str(value) + valueUnit + '  '
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
