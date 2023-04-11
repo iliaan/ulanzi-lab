@@ -43,6 +43,20 @@ To set up a clock on your Tasmota device, you need to follow these steps:
 
 These files contain the necessary code to display a clock on the device. Once the files are created and saved, restart the device to apply the changes. The clock should now be visible on the device display.
 
+## Clock Features
+* Time/Date/Stopwatch display
+* Temperature (Note: temperature sensor may be affected by nearby heat sources within the device)
+* Humidity display
+* Dew Point calculation
+* Battery level indication (Note: may require calibration and logic adjustments)
+* Illumination sensor for automatic brightness adjustment
+
+## Usage
+The clock can be controlled using the buttons on the device:
+* Use the left button (facing the device) to switch between Time/Date/Stopwatch display modes.
+* Use the right button to switch between Temperature/Humidity/Due Point/Battery level display modes.
+* Use the action button to change the color of the clock display. In stopwatch mode, the action button is used to start/stop the stopwatch.
+
 **********************
 ## TODO Next
 

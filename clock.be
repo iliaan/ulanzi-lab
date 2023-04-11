@@ -10,18 +10,26 @@ class ClockDriver
     var state_time_list
     var state_sensor_list
     var state
+    var stopwatch_start_time
+    var stopwatch_stop_time
+    var stopwatch_is_running
 
     def init()
         print("ClockDriver init")
         self.printer = printer.printer
 
+        # set brightness to 50%
         self.brightness = 50
         self.color_list = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
         self.color_index = 0
 
-        self.state_time_list = [ 'time', 'date' ]
+        self.state_time_list = [ 'time', 'date', 'stopwatch' ]
         self.state_sensor_list = [ 'temperature', 'humidity', 'dewpoint', 'battery' ]
         self.state = 'time'
+
+        self.stopwatch_start_time = 0
+        self.stopwatch_stop_time = 0
+        self.stopwatch_is_running = false
 
         tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
         tasmota.add_rule("Button2#State", / value, trigger, msg -> self.on_button_action(value, trigger, msg))
@@ -37,6 +45,8 @@ class ClockDriver
             self.print_time()
         elif state == 'date'
             self.print_date()
+        elif state == 'stopwatch'
+            self.print_stopwatch()
         elif state == 'temperature'
             self.print_temperature()
         elif state == 'humidity'
@@ -72,7 +82,21 @@ class ClockDriver
         # print(value)
         # print(trigger)
         # print(msg)
-        self.color_index = (self.color_index + 1) % size(self.color_list)
+
+        var state = self.state
+        if state == 'stopwatch'
+            var rtc = tasmota.rtc()
+            if self.stopwatch_is_running
+                self.stopwatch_stop_time = rtc['local']
+                self.stopwatch_is_running = false
+            else
+                self.stopwatch_start_time = rtc['local']
+                self.stopwatch_is_running = true
+                self.stopwatch_stop_time = 0
+            end
+        else
+            self.color_index = (self.color_index + 1) % size(self.color_list)
+        end
     end
 
     def on_button_next(value, trigger, msg)
@@ -122,6 +146,26 @@ class ClockDriver
 
         var date_str = weekday_list[weekday] + '|1' + day + '/' + month
         self.printer.print_string(date_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
+    end
+
+    def print_stopwatch()
+        var rtc = tasmota.rtc()
+        var time_str = ''
+        if self.stopwatch_is_running
+            var time_diff = rtc['local'] - self.stopwatch_start_time
+            time_str = tasmota.strftime('%H:%M:%S', time_diff)
+        else
+            if self.stopwatch_stop_time > 0
+                var time_diff = self.stopwatch_stop_time - self.stopwatch_start_time
+                time_str = tasmota.strftime('%H:%M:%S', time_diff)
+            else
+                time_str = '00:00:00'
+            end
+        end
+
+        var x_offset = 0
+        var y_offset = 1
+        self.printer.print_string(time_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
     end
 
     def print_temperature()
