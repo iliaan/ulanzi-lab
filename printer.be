@@ -9,11 +9,15 @@ class Printer
     var font_width
     var row_size
     var col_size
+    var long_string
+    var long_string_offset
 
     def init()
         print("Printer init")
         self.row_size = 8
         self.col_size = 32
+        self.long_string = ""
+        self.long_string_offset = 0
 
         self.leds = Leds(self.row_size*self.col_size, gpio.pin(gpio.WS2812, 32))
         self.strip = self.leds.create_matrix(self.col_size, self.row_size)
@@ -104,8 +108,29 @@ class Printer
                 char_offset += int(string[i])
                 continue
             end
-            self.print_char(string[i], x + char_offset, y, color, brightness)
+
+            if x + char_offset > self.col_size
+                break
+            end
+
+            if x + char_offset > 1 - self.font_width
+                self.print_char(string[i], x + char_offset, y, color, brightness)
+            end
+
             char_offset += self.font_width + 1
+        end
+    end
+
+    def print_long_string(string, x, y, color, brightness)
+        if self.long_string != string
+            self.long_string = string
+            self.long_string_offset = 0
+        end
+
+        self.print_string(self.long_string, x - self.long_string_offset, y, color, brightness)
+        self.long_string_offset += 1
+        if self.long_string_offset > (self.font_width + 1) * size(self.long_string)
+            self.long_string_offset = 0
         end
     end
 end

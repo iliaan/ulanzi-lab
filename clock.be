@@ -13,6 +13,7 @@ class ClockDriver
     var stopwatch_start_time
     var stopwatch_stop_time
     var stopwatch_is_running
+    var message
 
     def init()
         print("ClockDriver init")
@@ -23,13 +24,15 @@ class ClockDriver
         self.color_list = [ fonts.palette['white'], fonts.palette['red'], fonts.palette['green'], fonts.palette['blue'] ]
         self.color_index = 0
 
-        self.state_time_list = [ 'time', 'date', 'stopwatch' ]
+        self.state_time_list = [ 'time', 'date', 'stopwatch', 'message' ]
         self.state_sensor_list = [ 'temperature', 'humidity', 'dewpoint', 'battery' ]
         self.state = 'time'
 
         self.stopwatch_start_time = 0
         self.stopwatch_stop_time = 0
         self.stopwatch_is_running = false
+
+        self.message = 'FOLLOW THE WHITE RABBIT'
 
         tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
         tasmota.add_rule("Button2#State", / value, trigger, msg -> self.on_button_action(value, trigger, msg))
@@ -47,6 +50,8 @@ class ClockDriver
             self.print_date()
         elif state == 'stopwatch'
             self.print_stopwatch()
+        elif state == 'message'
+            self.print_message()
         elif state == 'temperature'
             self.print_temperature()
         elif state == 'humidity'
@@ -215,6 +220,12 @@ class ClockDriver
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
+    end
+
+    def print_message()
+        var x_offset = 0
+        var y_offset = 1
+        self.printer.print_long_string(self.message, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
     end
 end
 
