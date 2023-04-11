@@ -118,6 +118,7 @@ class Printer
             end
 
             char_offset += self.font_width + 1
+            self.print_binary(0, x + char_offset - 1, y, color, brightness)
         end
     end
 
