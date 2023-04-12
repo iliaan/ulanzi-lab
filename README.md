@@ -36,6 +36,7 @@ To set up a clock on your Tasmota device, you need to follow these steps:
 1. Click on "Consoles" and select "Manage File System".
 1. Create a new file called `fonts.be` and add the contents from [fonts.be](fonts.be).
 1. Create a new file called `printer.be` and add the contents from [printer.be](printer.be).
+1. Create a new file called `weather.be` and add the contents from [weather.be](weather.be).
 1. Create a new file called `clock.be` and add the contents from [clock.be](clock.be).
 1. Create a new file (or edit existing one) called `autoexec.be` with the contents from [autoexec.be](autoexec.be).
 
@@ -45,8 +46,9 @@ These files contain the necessary code to display a clock on the device. Once th
 
 ## Clock Features
 * Time/Date/Stopwatch display
-* Temperature (Note: temperature sensor may be affected by nearby heat sources within the device)
-* Humidity display
+* Temperature polled from https://open-meteo.com/
+  * Internal temperature sensor may be affected by nearby heat sources within the device
+* Humidity display - from internal sensor
 * Dew Point calculation
 * Battery level indication (Note: may require calibration and logic adjustments)
 * Illumination sensor for automatic brightness adjustment
@@ -62,7 +64,6 @@ The clock can be controlled using the buttons on the device:
 
 **********************
 ## Ideas
-* Poll some web data
 * Print text in running line : news/stocks
 * Alarm Clock
 * Pixel Art
@@ -77,3 +78,4 @@ The clock can be controlled using the buttons on the device:
 * https://github.com/mikerr/codebug-arduino/blob/master/font4x5.h
 * https://www.espruino.com/modules/Font4x4Numeric.js
 * https://github.com/ninjablocks/arduino/blob/master/DMD/Font3x5.h
+* https://open-meteo.com/en/docs

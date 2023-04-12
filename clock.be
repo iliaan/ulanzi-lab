@@ -1,6 +1,7 @@
 import printer
 import fonts
 import json
+import weather
 
 class ClockDriver
     var printer
@@ -14,6 +15,7 @@ class ClockDriver
     var stopwatch_stop_time
     var stopwatch_is_running
     var message
+    var weather
 
     def init()
         print("ClockDriver init")
@@ -33,6 +35,7 @@ class ClockDriver
         self.stopwatch_is_running = false
 
         self.message = 'Follow the white rabbit.'
+        self.weather = weather.weather
 
         tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
         tasmota.add_rule("Button2#State", / value, trigger, msg -> self.on_button_action(value, trigger, msg))
@@ -178,9 +181,16 @@ class ClockDriver
     end
 
     def print_temperature()
-        var sensors = json.load(tasmota.read_sensors())
-        var value = sensors['SHT3X']['Temperature']
-        var valueUnit = sensors['TempUnit']
+        # var sensors = json.load(tasmota.read_sensors())
+        # var value = sensors['SHT3X']['Temperature']
+        # var valueUnit = sensors['TempUnit']
+        var weather = self.weather.get_weather()
+        if nil == weather
+            return
+        end
+
+        var value = weather['temperature']
+        var valueUnit = ' C'
         var temp_str = str(value) + valueUnit + ' '
         var x_offset = 0
         var y_offset = 1
