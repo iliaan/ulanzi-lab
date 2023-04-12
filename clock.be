@@ -32,7 +32,7 @@ class ClockDriver
         self.stopwatch_stop_time = 0
         self.stopwatch_is_running = false
 
-        self.message = 'FOLLOW THE WHITE RABBIT.'
+        self.message = 'Follow the white rabbit.'
 
         tasmota.add_rule("Button1#State", / value, trigger, msg -> self.on_button_prev(value, trigger, msg))
         tasmota.add_rule("Button2#State", / value, trigger, msg -> self.on_button_action(value, trigger, msg))
@@ -102,7 +102,7 @@ class ClockDriver
                 self.stopwatch_stop_time = 0
             end
         elif state == 'message'
-            self.message = 'KNOK, KNOK, NEO.'
+            self.message = 'Knock, knock, Neo.'
         else
             self.color_index = (self.color_index + 1) % size(self.color_list)
         end

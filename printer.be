@@ -21,9 +21,10 @@ class Printer
 
         self.leds = Leds(self.row_size*self.col_size, gpio.pin(gpio.WS2812, 32))
         self.strip = self.leds.create_matrix(self.col_size, self.row_size)
-        self.strip.clear()
 
         self.change_font('MatrixDisplay3x5')
+
+        self.clear()
     end
 
     def clear()
@@ -53,7 +54,7 @@ class Printer
         return brightness
     end
 
-    # x is the column, y is the row from the top left
+    # x is the column, y is the row, (0,0) from the top left
     def set_matrix_pixel_color(x, y, color, brightness)   
         # if y is odd, reverse the order of y
         if y % 2 == 1
@@ -82,6 +83,7 @@ class Printer
     end
 
     def print_char(char, x, y, color, brightness)
+        var actual_width = 0
         if self.font.contains(char) == false
             print("Font does not contain char: ", char)
             return
@@ -94,11 +96,16 @@ class Printer
             for j: 0..(font_width-1)
                 if code & (1 << (7 - j)) != 0
                     self.set_matrix_pixel_color(x+j, y+i, color, brightness)
+                    if j > actual_width
+                        actual_width = j
+                    end
                 else
                     self.set_matrix_pixel_color(x+j, y+i, 0x000000, brightness)
                 end
             end
         end
+
+        return actual_width + 1
     end
 
     def print_string(string, x, y, color, brightness)
@@ -116,11 +123,16 @@ class Printer
                 break
             end
 
+            var actual_width = 0
             if x + char_offset > 1 - self.font_width
-                self.print_char(string[i], x + char_offset, y, color, brightness)
+                actual_width = self.print_char(string[i], x + char_offset, y, color, brightness)
             end
 
-            char_offset += self.font_width + 1
+            if actual_width == 0
+                actual_width = 1
+            end
+
+            char_offset += actual_width + 1
             self.print_binary(0, x + char_offset - 1, y, color, brightness)
         end
     end
