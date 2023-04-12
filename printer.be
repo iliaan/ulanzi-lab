@@ -111,14 +111,6 @@ class Printer
     def print_string(string, x, y, color, brightness)
         var char_offset = 0
         for i: 0..(size(string)-1)
-            if string[i] == '|'
-                continue
-            end
-            if i > 0 && string[i-1] == '|'
-                char_offset += int(string[i])
-                continue
-            end
-
             if x + char_offset > self.col_size
                 return true
             end

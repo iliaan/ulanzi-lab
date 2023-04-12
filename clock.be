@@ -153,7 +153,7 @@ class ClockDriver
             month = '0' + str(month)
         end
 
-        var date_str = weekday_list[weekday] + '|1' + day + '/' + month
+        var date_str = day + '/' + month + weekday_list[weekday]
         self.printer.print_string(date_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
     end
 
@@ -181,7 +181,7 @@ class ClockDriver
         var sensors = json.load(tasmota.read_sensors())
         var value = sensors['SHT3X']['Temperature']
         var valueUnit = sensors['TempUnit']
-        var temp_str = str(value) + valueUnit
+        var temp_str = str(value) + valueUnit + ' '
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
@@ -191,7 +191,7 @@ class ClockDriver
         var sensors = json.load(tasmota.read_sensors())
         var value = sensors['SHT3X']['Humidity']
         var valueUnit = '%'
-        var temp_str = 'RH' + '|1' + str(value) + valueUnit
+        var temp_str = 'RH' + ' ' + str(value) + valueUnit + ' '
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
@@ -201,7 +201,7 @@ class ClockDriver
         var sensors = json.load(tasmota.read_sensors())
         var value = sensors['SHT3X']['DewPoint']
         var valueUnit = sensors['TempUnit']
-        var temp_str = 'DP' + '|1' + str(value) + valueUnit
+        var temp_str = 'DP' + ' ' + str(value) + valueUnit + ' '
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
@@ -220,7 +220,7 @@ class ClockDriver
             value = max
         end
         value = int(((value - min) * 100) / (max - min))
-        var temp_str = 'BAT' + '|1' + str(value) + valueUnit + '  '
+        var temp_str = 'BAT' + ' ' + str(value) + valueUnit + '  '
         var x_offset = 0
         var y_offset = 1
         self.printer.print_string(temp_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
