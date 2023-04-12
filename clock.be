@@ -41,6 +41,7 @@ class ClockDriver
 
     def every_second()
         self.brightness = self.printer.recommend_brightness()
+        self.printer.change_font('MatrixDisplay3x5')
 
         # do state action
         var state = self.state
@@ -51,6 +52,7 @@ class ClockDriver
         elif state == 'stopwatch'
             self.print_stopwatch()
         elif state == 'message'
+            self.printer.change_font('TinyUnicode')
             self.print_message()
         elif state == 'temperature'
             self.print_temperature()

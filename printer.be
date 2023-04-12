@@ -23,9 +23,7 @@ class Printer
         self.strip = self.leds.create_matrix(self.col_size, self.row_size)
         self.strip.clear()
 
-        var font_key = 'MatrixDisplay3x5'
-        self.font = fonts.font_map[font_key]['font']
-        self.font_width = fonts.font_map[font_key]['width']
+        self.change_font('MatrixDisplay3x5')
     end
 
     def clear()
@@ -34,6 +32,11 @@ class Printer
 
     def draw()
         self.strip.show()
+    end
+
+    def change_font(font_key)
+        self.font = fonts.font_map[font_key]['font']
+        self.font_width = fonts.font_map[font_key]['width']
     end
 
     def recommend_brightness()

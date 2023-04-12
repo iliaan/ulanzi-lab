@@ -26,11 +26,11 @@ def generate_hex_strings(font_path, point_size, characters):
                         byte |= 1 << (7-i)
                 hex_array.append(f"0x{byte:02x}")
             hex_string = ", ".join(hex_array)
-        # if hex string is less then 5 bytes, pad with 0x00
+        # if hex string is less then 5 bytes, pad with 0x00 in front
         if len(hex_array) == 0:
             hex_string = "0x00, 0x00, 0x00, 0x00, 0x00"
         elif len(hex_array) < 5:
-            hex_string += ", 0x00" * (5 - len(hex_array))
+            hex_string = ", ".join(["0x00"] * (5-len(hex_array))) + ", " + hex_string
         hex_strings[char] = hex_string
         print(f"Char '{char}': {hex_string}")
         print_hex_as_binary(hex_string)
