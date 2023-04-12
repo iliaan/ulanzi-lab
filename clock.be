@@ -128,7 +128,7 @@ class ClockDriver
         var rtc = tasmota.rtc()
         # print("RTC: ", rtc)
         var time_str = tasmota.strftime('%H:%M:%S', rtc['local'])
-        var x_offset = 0
+        var x_offset = 2
         var y_offset = 1
         self.printer.print_string(time_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
     end
@@ -172,7 +172,7 @@ class ClockDriver
             end
         end
 
-        var x_offset = 0
+        var x_offset = 2
         var y_offset = 1
         self.printer.print_string(time_str, 0 + x_offset, 0 + y_offset, self.color_list[self.color_index], self.brightness)
     end

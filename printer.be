@@ -120,7 +120,7 @@ class Printer
             end
 
             if x + char_offset > self.col_size
-                break
+                return true
             end
 
             var actual_width = 0
@@ -135,6 +135,8 @@ class Printer
             char_offset += actual_width + 1
             self.print_binary(0, x + char_offset - 1, y, color, brightness)
         end
+
+        return false # no more string to print
     end
 
     def print_long_string(string, x, y, color, brightness)
@@ -143,9 +145,10 @@ class Printer
             self.long_string_offset = 0
         end
 
-        self.print_string(self.long_string, x - self.long_string_offset, y, color, brightness)
-        self.long_string_offset += 1
-        if self.long_string_offset > (self.font_width + 1) * size(self.long_string)
+        var is_continue = self.print_string(self.long_string, x - self.long_string_offset, y, color, brightness)
+        if is_continue
+            self.long_string_offset += 1
+        else
             self.long_string_offset = 0
         end
     end
