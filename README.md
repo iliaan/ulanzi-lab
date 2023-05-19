@@ -29,11 +29,9 @@ To set up a clock on your Tasmota device, you need to follow these steps:
 
 1. Go to the Tasmota web interface.
 1. Click on "Consoles" and select "Manage File System".
-1. Create a new file called `fonts.be` and add the contents from [fonts.be](fonts.be).
-1. Create a new file called `printer.be` and add the contents from [printer.be](printer.be).
-1. Create a new file called `weather.be` and add the contents from [weather.be](weather.be).
-1. Create a new file called `clock.be` and add the contents from [clock.be](clock.be).
-1. Create a new file (or edit existing one) called `autoexec.be` with the contents from [autoexec.be](autoexec.be).
+1. For each .be file here create new file with same name and add contents to it
+* For example create a new file called `fonts.be` and add the contents from [fonts.be](fonts.be).
+4. Create a new file (or edit existing one) called `autoexec.be` with the contents from [autoexec.be](autoexec.be).
 
 ![Ulanzi_Manage_File_system_Clock](doc/Ulanzi_Manage_File_system_Clock.png)
 
@@ -41,12 +39,16 @@ These files contain the necessary code to display a clock on the device. Once th
 
 ## Usage
 The clock can be controlled using the buttons on the device:
-* Use the left button (facing the device) to switch between Time/Date/Stopwatch display modes.
-* Use the right button to switch between Temperature/Humidity/Due Point/Battery level display modes.
-* Use the action button to change the color of the clock display. In stopwatch mode, the action button is used to start/stop the stopwatch.
+* Use left/right button to switch between different faces (Time/Date/Sensors/Network)
+* Use action button (the one in a middle) to switch face modes :
+* Date : DAY.MONTH -> YEAR
+* Sensors : 'Illuminance2' -> 'Humidity' -> 'Temperature' -> 'DewPoint' -> 'Battery'
+* Network : 'rssi' -> 'ip' -> 'mac'
 
 **********************
 ## TODO Next
+* Running long string
+* Weather polling
 
 **********************
 ## Ideas
@@ -55,6 +57,11 @@ The clock can be controlled using the buttons on the device:
 * Pixel Art
 * Snake
 * Yes/No questions/trivia/game/ai
+
+**********************
+## Acknowledgment
+* Thank a lot to https://github.com/Hypfer/ulanzi-tc001-tasmota for software design and solving few nesty issues
+
 **********************
 ## Links
 * https://github.com/aptonline/PixelIt_Ulanzi
