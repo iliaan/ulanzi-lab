@@ -18,10 +18,13 @@ var clockFaces = [
     NetClockFace,
 ];
 
+var colors = ['white', 'red', 'green', 'blue', 'yellow']
+
 class ClockfaceManager
     var matrixController
     var brightness
     var color
+    var colorIdx
     var currentClockFace
     var currentClockFaceIdx
 
@@ -32,6 +35,7 @@ class ClockfaceManager
 
         self.brightness = 50;
         self.color = fonts.palette['white']
+        self.colorIdx = 0;
 
         self.matrixController.print_string("Hello :)", 3, 2, true, self.color, self.brightness)
         self.matrixController.draw()
@@ -60,6 +64,9 @@ class ClockfaceManager
 
         if handleActionMethod != nil
             self.currentClockFace.handleActionButton()
+        else
+            self.colorIdx = (self.colorIdx + 1) % size(colors)
+            self.color = fonts.palette[colors[self.colorIdx]]
         end
     end
 
