@@ -7,11 +7,13 @@ import MatrixController
 import SecondsClockFace
 import DateClockFace
 import SensorClockFace
+import NetClockFace
 
 var clockFaces = [
     SecondsClockFace,
     DateClockFace,
     SensorClockFace,
+    NetClockFace,
 ];
 
 class ClockfaceManager
