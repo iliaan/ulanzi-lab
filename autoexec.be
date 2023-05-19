@@ -1,3 +1,5 @@
-import clock
+import ClockfaceManager
 
-tasmota.add_driver(clock.driver)
+_clockfaceManager = ClockfaceManager()
+
+tasmota.add_driver(_clockfaceManager)
