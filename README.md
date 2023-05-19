@@ -1,4 +1,5 @@
-# Ulanzi TC001
+# Ulanzi TC001 
+
 <img src="https://templates.blakadder.com/assets/images/logo.svg" alt="Tasmota" width="300"/>
 
 ## Flash Tasmota firmware
@@ -12,21 +13,6 @@ To install Tasmota firmware on the Ulanzi TC001, follow these steps:
 2. Follow installation guide [here](https://templates.blakadder.com/ulanzi_TC001.html).
 3. In the Tasmota web interface, go to "Consoles" and select "Console". Enter the command "Pixels 256" to enable the 256-pixel display mode.
 4. Set the time zone via the console by entering the command "Timezone +2:00".
-
-**********************
-## [Berry](https://tasmota.github.io/docs/Berry/) Rainbow
-
-To set up a [rainbow](https://tasmota.github.io/docs/Berry_Addressable-LED/) effect on your Tasmota Berry device, follow these steps:
-1. Go to "Consoles" in the Tasmota web interface and select "Berry Scripting Console".
-2. Copy the code from [rainbow.be](rainbow.be) and paste it into the console.
-3. Run the code to display the rainbow effect on the device.
-
-To automatically start the rainbow effect when the device starts up:
-1. Create a new file called [autoexec.be](https://tasmota.github.io/docs/UFS/#autoexecbe) in the root directory of the device's file system.
-2. Copy the code from [rainbow.be](rainbow.be) to autoexec.be
-3. Save file and restart the device
-
-![](doc/Ulanzi_Manage_File_system.png)
 **********************
 ## Clock
 
