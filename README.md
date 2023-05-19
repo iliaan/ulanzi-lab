@@ -39,7 +39,7 @@ These files contain the necessary code to display a clock on the device. Once th
 
 ## Usage
 The clock can be controlled using the buttons on the device:
-* Use left/right button to switch between different faces (Time/Date/Sensors/Network)
+* Use left/right button to switch between different faces (Time/Date/Weather/Sensors/Network)
 * Use action button (the one in a middle) to switch face modes :
 * Date : DAY.MONTH -> YEAR
 * Sensors : 'Illuminance2' -> 'Humidity' -> 'Temperature' -> 'DewPoint' -> 'Battery'

@@ -6,12 +6,14 @@ import introspect
 import MatrixController
 import SecondsClockFace
 import DateClockFace
+import WeatherClockFace
 import SensorClockFace
 import NetClockFace
 
 var clockFaces = [
     SecondsClockFace,
     DateClockFace,
+    WeatherClockFace,
     SensorClockFace,
     NetClockFace,
 ];
