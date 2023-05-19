@@ -56,7 +56,7 @@ class Printer
 
     # x is the column, y is the row, (0,0) from the top left
     def set_matrix_pixel_color(x, y, color, brightness)   
-        # if y is odd, reverse the order of y
+        # if y is odd, reverse the order of x
         if y % 2 == 1
             x = self.col_size - x - 1
         end

@@ -10,11 +10,20 @@ Flashing Tasmota firmware on your device may potentially brick or damage the dev
 To install Tasmota firmware on the Ulanzi TC001, follow these steps:
 
 1. Download the Tasmota firmware from the [official Tasmota website](http://ota.tasmota.com/tasmota32/release/).
-2. Follow installation guide [here](https://templates.blakadder.com/ulanzi_TC001.html).
-3. In the Tasmota web interface, go to "Consoles" and select "Console". Enter the command "Pixels 256" to enable the 256-pixel display mode.
-4. Set the time zone via the console by entering the command "Timezone +2:00".
+1. Follow installation guide [here](https://templates.blakadder.com/ulanzi_TC001.html).
+1. In the Tasmota web interface, go to "Consoles" and select "Console". Enter the command "Pixels 256" to enable the 256-pixel display mode.
+1. To [decouple buttons from controlling power outputs](https://tasmota.github.io/docs/Commands/) enter in console "SetOption73 1"
+1. Set the time zone via the console by entering the command "Timezone +2:00".
+
 **********************
-## Clock
+## Clock Features
+* Time/Date/Stopwatch display
+* Temperature polled from https://open-meteo.com/
+  * Internal temperature sensor may be affected by nearby heat sources within the device
+* Humidity display - from internal sensor
+* Dew Point calculation
+* Battery level indication (Note: may require calibration and logic adjustments)
+* Illumination sensor for automatic brightness adjustment
 
 To set up a clock on your Tasmota device, you need to follow these steps:
 
@@ -29,15 +38,6 @@ To set up a clock on your Tasmota device, you need to follow these steps:
 ![Ulanzi_Manage_File_system_Clock](doc/Ulanzi_Manage_File_system_Clock.png)
 
 These files contain the necessary code to display a clock on the device. Once the files are created and saved, restart the device to apply the changes. The clock should now be visible on the device display.
-
-## Clock Features
-* Time/Date/Stopwatch display
-* Temperature polled from https://open-meteo.com/
-  * Internal temperature sensor may be affected by nearby heat sources within the device
-* Humidity display - from internal sensor
-* Dew Point calculation
-* Battery level indication (Note: may require calibration and logic adjustments)
-* Illumination sensor for automatic brightness adjustment
 
 ## Usage
 The clock can be controlled using the buttons on the device:
