@@ -119,10 +119,12 @@ class MatrixController
 
     def print_string(string, x, y, collapse, color, brightness)
         var char_offset = 0
-
         for i: 0..(size(string)-1)
-            var actual_width = 0
+            if x + char_offset > self.col_size
+                return true
+            end
 
+            var actual_width = 0
             if x + char_offset > 1 - self.font_width
                 actual_width = self.print_char(string[i], x + char_offset, y, collapse, color, brightness)
             end
@@ -133,6 +135,22 @@ class MatrixController
 
             char_offset += actual_width + 1
             self.print_binary(0, x + char_offset, y, color, brightness)
+        end
+
+        return false # no more string to print
+    end
+
+    def print_long_string(string, x, y, collapse, color, brightness)
+        if self.long_string != string
+            self.long_string = string
+            self.long_string_offset = 0
+        end
+
+        var is_continue = self.print_string(self.long_string, x - self.long_string_offset, y, collapse, color, brightness)
+        if is_continue
+            self.long_string_offset += 1
+        else
+            self.long_string_offset = 0
         end
     end
 
