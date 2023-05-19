@@ -5,9 +5,11 @@ import introspect
 
 import MatrixController
 import SecondsClockFace
+import DateClockFace
 
 var clockFaces = [
     SecondsClockFace,
+    DateClockFace,
 ];
 
 class ClockfaceManager
