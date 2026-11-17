@@ -1,74 +1,88 @@
-# Ulanzi TC001 
+# 🕰️ Ulanzi TC001 Pixel Clock (Tasmota)
 
-<img src="https://templates.blakadder.com/assets/images/logo.svg" alt="Tasmota" width="300"/>
+A collection of Berry scripts to transform your Ulanzi TC001 into a feature-rich pixel clock running on Tasmota firmware.
 
-## Flash Tasmota firmware
+## ✨ Features
 
-### **Warning**: 
-Flashing Tasmota firmware on your device may potentially brick or damage the device. It is important to proceed with caution and to understand the risks involved before attempting to flash the firmware. Please note that any modifications to the device's firmware may void the manufacturer's warranty and may result in permanent damage to the device. It is strongly recommended to thoroughly research the flashing process and to follow instructions carefully. The user assumes all responsibility and risk associated with flashing the firmware.
+- **Multi-Face Display**: Switch between different information screens.
+- **Dynamic Weather**: Real-time temperature and weather updates via Open-Meteo API.
+- **Environmental Sensors**: Display Humidity, Temperature, Dew Point, and Illuminance.
+- **Smart Brightness**: Automatic brightness adjustment based on ambient light.
+- **System Status**: Monitor Battery level, IP address, MAC address, and RSSI.
+- **Custom Colors**: Cycle through different colors for the display.
+- **Customizable**: Easy to add new clock faces by extending \`BaseClockFace\`.
 
-To install Tasmota firmware on the Ulanzi TC001, follow these steps:
+## 🚀 Installation
 
-1. Download the Tasmota firmware from the [official Tasmota website](http://ota.tasmota.com/tasmota32/release/).
-1. Follow installation guide [here](https://templates.blakadder.com/ulanzi_TC001.html).
-1. In the Tasmota web interface, go to "Consoles" and select "Console". Enter the command "Pixels 256" to enable the 256-pixel display mode.
-1. To [decouple buttons from controlling power outputs](https://tasmota.github.io/docs/Commands/) enter in console "SetOption73 1"
-1. Set the time zone via the console by entering the command "Timezone +2:00".
+### ⚠️ Warning
+Flashing custom firmware can brick your device and void your warranty. Proceed with caution.
 
-**********************
-## Clock Features
-* Time/Date/Stopwatch display
-* Temperature polled from https://open-meteo.com/
-  * Internal temperature sensor may be affected by nearby heat sources within the device
-* Humidity display - from internal sensor
-* Dew Point calculation
-* Battery level indication (Note: may require calibration and logic adjustments)
-* Illumination sensor for automatic brightness adjustment
+### Step 1: Flash Tasmota
+1. Download the Tasmota firmware from the [official website](http://ota.tasmota.com/tasmota32/release/).
+2. Follow the [Tasmota Ulanzi TC001 installation guide](https://templates.blakadder.com/ulanzi_TC001.html).
+3. **Essential Console Commands**:
+   - \`Pixels 256\` - Enable 256-pixel display mode.
+   - \`SetOption73 1\` - Decouple buttons from controlling power outputs.
+   - \`Timezone +2:00\` - Set your local timezone (adjust \`+2:00\` as needed).
 
-To set up a clock on your Tasmota device, you need to follow these steps:
+### Step 2: Install Berry Scripts
+The clock functionality is powered by Berry scripts. You need to upload them to the device's file system.
 
-1. Go to the Tasmota web interface.
-1. Click on "Consoles" and select "Manage File System".
-1. For each .be file here create new file with same name and add contents to it
-* For example create a new file called `fonts.be` and add the contents from [fonts.be](fonts.be).
-4. Create a new file (or edit existing one) called `autoexec.be` with the contents from [autoexec.be](autoexec.be).
+1. Open the Tasmota web interface.
+2. Navigate to **Consoles** $\rightarrow$ **Manage File System**.
+3. Create the following files and paste the contents from this repository:
+   - \`fonts.be\` - Custom font definitions.
+   - \`autoexec.be\` - The main entry point for the clock.
+   - \`ClockfaceManager.be\`, \`MatrixController.be\`, \`BaseClockFace.be\`, etc. (all \`.be\` files in the root).
+4. Restart the device.
 
-![Ulanzi_Manage_File_system_Clock](doc/Ulanzi_Manage_File_system_Clock.png)
+![Ulanzi TC001](doc/Ulanzi_Manage_File_system_Clock.png)
 
-These files contain the necessary code to display a clock on the device. Once the files are created and saved, restart the device to apply the changes. The clock should now be visible on the device display.
+## 🎮 Usage & Controls
 
-## Usage
-The clock can be controlled using the buttons on the device:
-* Use left/right button to switch between different faces (Time/Date/Weather/Sensors/Network)
-* Use action button (the one in a middle) to switch face modes :
-* Date : DAY.MONTH -> YEAR
-* Sensors : 'Illuminance2' -> 'Humidity' -> 'Temperature' -> 'DewPoint' -> 'Battery'
-* Network : 'rssi' -> 'ip' -> 'mac'
+Use the buttons on the device to navigate the interface:
 
-**********************
-## TODO Next
-* Running long string
-* Weather polling
+| Button | Action | Details |
+| :--- | :--- | :--- |
+| **Left** | ⬅️ Previous Face | Cycle through: Time $\rightarrow$ Date $\rightarrow$ Weather $\rightarrow$ Sensors $\rightarrow$ Network |
+| **Right** | ➡️ Next Face | Cycle through: Time $\rightarrow$ Date $\rightarrow$ Weather $\rightarrow$ Sensors $\rightarrow$ Network |
+| **Middle** | ⚙️ Mode/Color | Changes the mode of the current face or cycles colors |
 
-**********************
-## Ideas
-* Print text in running line : news/stocks
-* Alarm Clock
-* Pixel Art
-* Snake
-* Yes/No questions/trivia/game/ai
+### Face Modes
+- **Date**: \`DAY.MONTH\` $\rightarrow$ \`YEAR\`
+- **Sensors**: \`Illuminance\` $\rightarrow$ \`Humidity\` $\rightarrow$ \`Temperature\` $\rightarrow$ \`DewPoint\` $\rightarrow$ \`Battery\`
+- **Network**: \`RSSI\` $\rightarrow$ \`IP\` $\rightarrow$ \`MAC\`
 
-**********************
-## Acknowledgment
-* Thank a lot to https://github.com/Hypfer/ulanzi-tc001-tasmota for software design and solving few nesty issues
+## 🛠️ Configuration
 
-**********************
-## Links
-* https://github.com/aptonline/PixelIt_Ulanzi
-* https://blakadder.com/esphome-pixel-clock/
-* https://github.com/dhepper/font8x8
-* https://github.com/Ameba8195/Arduino/blob/master/hardware_v2/cores/arduino/font5x7.h
-* https://github.com/mikerr/codebug-arduino/blob/master/font4x5.h
-* https://www.espruino.com/modules/Font4x4Numeric.js
-* https://github.com/ninjablocks/arduino/blob/master/DMD/Font3x5.h
-* https://open-meteo.com/en/docs
+### Weather Location
+By default, the clock uses coordinates for Switzerland. To change your location:
+1. Open the Tasmota Console.
+2. Enter the following commands (replacing the values with your coordinates):
+   \`\`\`bash
+   persist.latitude = 'your_lat'
+   persist.longitude = 'your_lon'
+   persist.save()
+   \`\`\`
+
+## 📁 Project Structure
+
+- \`autoexec.be\`: Initialization script.
+- \`ClockfaceManager.be\`: Coordinates face switching and input handling.
+- \`MatrixController.be\`: Low-level LED matrix driver.
+- \`BaseClockFace.be\`: Abstract class for all display faces.
+- \`Weather.be\`: Handles API requests to Open-Meteo.
+- \`fonts.be\`: Font bitmaps and color palettes.
+
+## 🙏 Acknowledgments
+
+- Huge thanks to [Hypfer/ulanzi-tc001-tasmota](https://github.com/Hypfer/ulanzi-tc001-tasmota) for the original software design and for solving complex hardware issues.
+
+## 🔗 Useful Links
+
+- [PixelIt Ulanzi](https://github.com/aptonline/PixelIt_Ulanzi)
+- [ESPHome Pixel Clock](https://blakadder.com/esphome-pixel-clock/)
+- [Open-Meteo API Documentation](https://open-meteo.com/en/docs)
+
+---
+*Happy hacking!*
